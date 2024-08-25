@@ -68,13 +68,13 @@ contract TaskManager {
 Clone the project
 
 ```bash
-  git clone https://github.com/Ayush-dvplr/intermediate_eth_ass2.git
+  git clone https://github.com/Abhishekanand32/taskManager-frontend.git
 ```
 
 Go to the project directory
 
 ```bash
-  cd intermediate_eth_ass2
+  cd taskManager-frontend
 ```
 
 ```bash
@@ -93,11 +93,10 @@ Start frontend
 ```
 ## Screenshots
 
-![App Screenshot](https://res.cloudinary.com/dsprifizw/image/upload/v1719985348/homev2.png)
+![App Screenshot](https://res.cloudinary.com/dsprifizw/image/upload/v1724598005/Screenshot_2024-08-25_202951_lqfqd0.png)
 
-![App Screenshot](https://res.cloudinary.com/dsprifizw/image/upload/v1719985466/createv2.png)
+![App Screenshot](https://res.cloudinary.com/dsprifizw/image/upload/v1724598006/Screenshot_2024-08-25_202942_cqhvcu.png)
 
-![App Screenshot](https://res.cloudinary.com/dsprifizw/image/upload/v1719985686/editv2.png)
 
 
 
