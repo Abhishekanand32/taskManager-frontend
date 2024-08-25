@@ -1,70 +1,103 @@
-# Getting Started with Create React App
+# TaskManager Smart Contract
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This Solidity program is a simple TaskManager contract that demonstrates the basic syntax and functionality of the Solidity programming language. The purpose of this program is to serve as a starting point for those who are new to Solidity and want to get a feel for how it works.
 
-## Available Scripts
+## Description
 
-In the project directory, you can run:
+This program is a basic TaskManager contract written in Solidity, a programming language used for developing smart contracts on the Ethereum blockchain. The contract includes functionalities such as addAssignment, getAssignments , etc. This program serves as a simple and straightforward introduction to Solidity programming and can be used as a stepping stone for more complex projects in the future.
 
-### `npm start`
+In this smart contract we also implements the require(), assert() and revert() statements.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+We are also going to use react and web3 to connect our blockchain to frontend.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+## Usage/Examples
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```solidity
 
-### `npm run build`
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.22;
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+contract TaskManager {
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+    struct Assignment {
+        string description; // details of the assignment
+        uint dueDate; // assignment deadline
+        bool isDone; // completion status
+        bool isDueDateChanged; // flag for due date modification
+    }
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    mapping(address => Assignment[]) private assignmentsByUser;
 
-### `npm run eject`
+    function addAssignment(string memory _description, uint _dueDate) public {
+        if (bytes(_description).length == 0) {
+            revert("Assignment description cannot be empty");
+        }
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+        assignmentsByUser[msg.sender].push(Assignment({
+            description: _description,
+            dueDate: _dueDate,
+            isDone: false,
+            isDueDateChanged: false
+        }));
+    }
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    function markAssignmentDone(uint _assignmentIndex, bool _isDone) public {
+        assert(_assignmentIndex < assignmentsByUser[msg.sender].length);
+        assignmentsByUser[msg.sender][_assignmentIndex].isDone = _isDone;
+    }
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+    function modifyDueDate(uint _assignmentIndex, uint _newDueDate) public {
+        require(_assignmentIndex < assignmentsByUser[msg.sender].length, "Invalid assignment index");
+        require(!assignmentsByUser[msg.sender][_assignmentIndex].isDueDateChanged, "Due date can only be modified once");
+        assignmentsByUser[msg.sender][_assignmentIndex].dueDate = _newDueDate;
+        assignmentsByUser[msg.sender][_assignmentIndex].isDueDateChanged = true;
+    }
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+    function getAssignments() public view returns (Assignment[] memory) {
+        return assignmentsByUser[msg.sender];
+    }
+}
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
+## Run Locally
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Clone the project
 
-### Analyzing the Bundle Size
+```bash
+  git clone https://github.com/Ayush-dvplr/intermediate_eth_ass2.git
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Go to the project directory
 
-### Making a Progressive Web App
+```bash
+  cd intermediate_eth_ass2
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```bash
+  cd frontend
+```
 
-### Advanced Configuration
+Install dependencies
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```bash
+  npm install
+```
 
-### Deployment
+Start frontend 
+```bash
+  npm start
+```
+## Screenshots
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+![App Screenshot](https://res.cloudinary.com/dsprifizw/image/upload/v1719985348/homev2.png)
 
-### `npm run build` fails to minify
+![App Screenshot](https://res.cloudinary.com/dsprifizw/image/upload/v1719985466/createv2.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+![App Screenshot](https://res.cloudinary.com/dsprifizw/image/upload/v1719985686/editv2.png)
+
+
+
